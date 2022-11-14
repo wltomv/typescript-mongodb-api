@@ -5,30 +5,39 @@ const ItemSchema = new Schema<Product>(
     {
         id: {
             type: Number,
+            required: true,
         },
         title: {
             type: String,
+            required: true,
         },
         description: {
-            type: String
+            type: String,
+            required: true,
         },
         price: {
             type: Number,
+            required: true,
         },
         discountPercentage: {
             type: Number,
+            required: true,
         },
         rating: {
             type: Number,
+            required: true,
         },
         stock: {
             type: Number,
+            required: true,
         },
         brand: {
             type: String,
+            required: true,
         },
         category: {
             type: String,
+            required: true,
         },
     },
     {

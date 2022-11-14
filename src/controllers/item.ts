@@ -1,40 +1,51 @@
-import { Request, Response } from "express"
+import { Request, response, Response } from "express"
+import { insertProduct, getProducts, getProduct, updateProduct, deleteProduct } from "../services/item"
 import { handleHttp } from "../utils/error.handle"
 
-const getItem = (req: Request, res: Response) => {
+const getItem = async ({ params }: Request, res: Response) => {
     try {
-
+        const { id } = params;
+        const response = await getProduct(id);
+        const data = response ? response : "NOT FOUND"
+        res.send(data);
     } catch (e) {
         handleHttp(res, 'ERROR GET ITEM')
     }
 }
-const getItems = (req: Request, res: Response) => {
+const getItems = async (req: Request, res: Response) => {
     try {
-
+        const response = await getProducts();
+        res.send(response);
     } catch (e) {
         handleHttp(res, 'ERROR GET ITEMS')
     }
 }
 
-const postItem = ({ body }: Request, res: Response) => {
+const postItem = async ({ body }: Request, res: Response) => {
     try {
-        res.send(body)
+
+        const responseItem = await insertProduct(body)
+        res.send(responseItem)
     } catch (e) {
-        handleHttp(res, 'ERROR POST ITEMS')
+        handleHttp(res, 'ERROR POST ITEMS', e)
     }
 }
 
-const updateItem = (req: Request, res: Response) => {
+const updateItem = async ({ params, body }: Request, res: Response) => {
     try {
-
+        const { id } = params;
+        const responseItem = await updateProduct(id, body)
+        res.send(responseItem)
     } catch (e) {
         handleHttp(res, 'ERROR UPDATE ITEMS')
     }
 }
 
-const deleteItem = (req: Request, res: Response) => {
+const deleteItem = async ({ params }: Request, res: Response) => {
     try {
-
+        const { id } = params;
+        const response = await deleteProduct(id);
+        res.send(response);
     } catch (e) {
         handleHttp(res, 'ERROR DELETE ITEMS')
     }
